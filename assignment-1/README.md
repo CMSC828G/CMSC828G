@@ -148,7 +148,7 @@ def max_pooling_grad(H: List[List[float]], grad: List[float], indices: List[int]
     return grad_output
 ```
 
-The setup, testing, and benchmark code for the pooling kernel is in the [max_pooling_kernel.py](max_pooling_kernel.py) file. To implement the forward kernel you need to write `_max_pooling_kernel_forward` and `_max_pooling_triton_forward`. To implement the backward kernel you need to write `_max_pooling_kernel_backward` and `_max_pooling_triton_backward`. You can verify their correctness by running `srun python max_pooling_kernel.py --test-forward` and `srun python max_pooling_kernel.py --test-backward`. You can benchmark them using `srun python max_pooling_kernel.py --benchmark <results_fpath>`.
+The setup, testing, and benchmark code for the pooling kernel is in the [max_pool_kernel.py](max_pool_kernel.py) file. To implement the forward kernel you need to write `_max_pool_kernel_forward` and `_max_pool_triton_forward`. To implement the backward kernel you need to write `_max_pool_kernel_backward` and `_max_pool_triton_backward`. You can verify their correctness by running `srun python max_pool_kernel.py --test-forward` and `srun python max_pool_kernel.py --test-backward`. You can benchmark them using `srun python max_pool_kernel.py --benchmark <results_fpath>`.
 
 In addition to correctness, your max pooling forward kernel will also be tested for performance. 
 We will test the performance on a full A100 on Zaratan for various matrix sizes (number of rows and cols $\le 2^{15}$). 
