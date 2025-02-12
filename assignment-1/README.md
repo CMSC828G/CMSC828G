@@ -5,7 +5,7 @@ You will implement these using Triton and run them on A100s on Zaratan. You will
 performance of your implementations. This assignment consists of three main tasks:
 
 1. Implement a ReLU forward and backward kernel.
-2. Implement an effecient max reduction kernel for graph pooling.
+2. Implement an efficient max reduction kernel for graph pooling.
 3. Implement kernel fusion and explore performance trade-offs for different performance-related parameters.
 
 
@@ -113,7 +113,7 @@ The setup, testing, and benchmark code for the ReLU kernel is in the [relu_kerne
 
 ## Part 2: Graph Pooling
 
-The next step is to implement the graph pooling operation. In this assignment, you will implement a max pooling operation over the node features. Specifically, you will write a Triton kernel that performs the following operation:
+The next step is to implement the graph pooling operation, and benchmark its performance. In this part, you will implement a max pooling operation over the node features. Specifically, you will write a Triton kernel that performs the following operation:
 
 $$ \text{MaxPool}(H) = \max_{i \in \{1, \ldots, N\}} H_{i,:} $$
 
@@ -134,7 +134,7 @@ def max_pooling(H: List[List[float]]) -> Tuple[List[float], List[int]]:
     return pooled, indices
 ```
 
-You will also need to implement the gradient kernel for max pooling. For the backwards pass we only backpropagate gradient values where the max occurred in the matrix. An example of this in Python is shown below:
+You will also need to implement the gradient kernel for max pooling. For the backward pass we only backpropagate gradient values where the max occurred in the matrix. An example of this in Python is shown below:
 
 ```python
 def max_pooling_grad(H: List[List[float]], grad: List[float], indices: List[int]) -> List[List[float]]:
@@ -150,9 +150,9 @@ def max_pooling_grad(H: List[List[float]], grad: List[float], indices: List[int]
 
 The setup, testing, and benchmark code for the pooling kernel is in the [max_pool_kernel.py](max_pool_kernel.py) file. To implement the forward kernel you need to write `_max_pool_kernel_forward` and `_max_pool_triton_forward`. To implement the backward kernel you need to write `_max_pool_kernel_backward` and `_max_pool_triton_backward`. You can verify their correctness by running `srun python max_pool_kernel.py --test-forward` and `srun python max_pool_kernel.py --test-backward`. You can benchmark them using `srun python max_pool_kernel.py --benchmark <results_fpath>`.
 
-In addition to correctness, your max pooling forward kernel will also be tested for performance. 
-We will test the performance on a full A100 on Zaratan for various matrix sizes (number of rows and cols $\le 2^{15}$). 
-To receive full credit your implementation should be near the performance of the PyTorch implementation (`torch.max(x, axis=0)`).
+In addition to correctness, we will also benchmark your max pooling forward kernel implementation for performance. 
+We will test the performance on a full A100 GPU on Zaratan for various matrix sizes (number of rows and columns $\le 2^{15}$). 
+To receive full credit, the execution time of your forward kernel should be within (less than) 2x the performance of the PyTorch implementation (`torch.max(x, axis=0)`). We will post performance numbers for some representative matrix sizes on Piazza.
 You should not have Triton autotuning on your final submitted kernel.
 
 ## Part 3: Kernel fusion, Performance parameters, and Performance analysis
@@ -161,7 +161,7 @@ In this part, you will fuse two kernels and try different performance-related pa
 
 ***Kernel Fusion:*** Fuse (combine) two kernels into a single kernel -- the ReLU kernel with the provided [matrix multiplication triton kernel](matmul_kernel.py). How does this change the performance compared to calling the two kernels individually back-to-back? You can also try fusing ReLU with your pooling kernel. Are the performance improvements the same? Feel free to create new files and tests.
 
-***Performance Tuning:*** Try different values of the various performance-related parameters (i.e. block size, number of warps, number of stages) and study the impact these have on performance. Are the performances differences as expected? How does this change across problem sizes?
+***Performance Tuning:*** Try different values of the various performance-related parameters (i.e. block size, number of warps, number of stages) and study the impact these have on performance. We would like you to manually sweep the search space of these parameters so that you develop an understanding of the relationships between the values and performance (instead of simply adding an autotuning decorator to the kernel). We expect you to consider questions such as: Are the performances differences as expected? How does this change across problem sizes?
 
 In your report, write about your findings regarding kernel fusion and the performance tuning of parameters. You should include plots and/or tables to demonstrate your findings.
 
@@ -178,8 +178,8 @@ The grading for this assignment is distributed according to the table below.
 
 | Task | Points |
 | ---- | ------ |
-| Part 1: ReLU Kernel Correctness (forward and backward) | 20 |
-| Part 2: Max Pooling Kernel Correctness (forward and backward) | 30 |
+| Part 1: ReLU Kernel Correctness (forward and backward) | 10+10 |
+| Part 2: Max Pooling Kernel Correctness (forward and backward) | 15+15 |
 | Part 2: Max Pooling Kernel Performance (forward) | 20 |
 | Part 3 and Report | 30 |
 | **Total** | 100 |
