@@ -108,7 +108,7 @@ def relu_grad(x: List[float], grad: List[float], output: List[float]):
 ```
 
 
-The setup, testing, and benchmark code for the ReLU kernel is in the [relu_kernel.py](relu_kernel.py) file. Your task is to implement the `_relu_kernel_forward` and `_relu_kernel_backward` functions using Triton. You can check the correctness of your implementations by running `srun python relu_kernel.py --test-forward` and `srun python relu_kernel.py --test-backward`. You can benchmark them by running `srun python relu_kernel.py --benchmark <results_fpath>`.
+The setup, testing, and benchmark code for the ReLU kernel is in the [relu_kernel.py](relu_kernel.py) file. Your task is to implement the `_relu_kernel_forward` and `_relu_kernel_backward` functions using Triton. You can check the correctness of your implementations by running `srun python relu_kernel.py --test-forward` and `srun python relu_kernel.py --test-backward`. You can benchmark them by running `srun python relu_kernel.py --benchmark <results_fpath>`. You can also use the `--time-with-size <N>` flag to time the kernel for specific sizes.
 
 
 ## Part 2: Graph Pooling
@@ -148,7 +148,7 @@ def max_pooling_grad(H: List[List[float]], grad: List[float], indices: List[int]
     return grad_output
 ```
 
-The setup, testing, and benchmark code for the pooling kernel is in the [max_pool_kernel.py](max_pool_kernel.py) file. To implement the forward kernel you need to write `_max_pool_kernel_forward` and `_max_pool_triton_forward`. To implement the backward kernel you need to write `_max_pool_kernel_backward` and `_max_pool_triton_backward`. You can verify their correctness by running `srun python max_pool_kernel.py --test-forward` and `srun python max_pool_kernel.py --test-backward`. You can benchmark them using `srun python max_pool_kernel.py --benchmark <results_fpath>`.
+The setup, testing, and benchmark code for the pooling kernel is in the [max_pool_kernel.py](max_pool_kernel.py) file. To implement the forward kernel you need to write `_max_pool_kernel_forward` and `_max_pool_triton_forward`. To implement the backward kernel you need to write `_max_pool_kernel_backward` and `_max_pool_triton_backward`. You can verify their correctness by running `srun python max_pool_kernel.py --test-forward` and `srun python max_pool_kernel.py --test-backward`. You can benchmark them using `srun python max_pool_kernel.py --benchmark <results_fpath>`. You can also use the `--time-with-size <N> <M>` flag to time the kernel for specific matrix sizes.
 
 In addition to correctness, we will also benchmark your max pooling forward kernel implementation for performance. 
 We will test the performance on a full A100 GPU on Zaratan for various matrix sizes (number of rows and columns $\le 2^{15}$). 
@@ -161,7 +161,7 @@ In this part, you will fuse two kernels and try different performance-related pa
 
 ***Kernel Fusion:*** Fuse (combine) two kernels into a single kernel -- the ReLU kernel with the provided [matrix multiplication triton kernel](matmul_kernel.py). How does this change the performance compared to calling the two kernels individually back-to-back? You can also try fusing ReLU with your pooling kernel. Are the performance improvements the same? Feel free to create new files and tests.
 
-***Performance Tuning:*** Try different values of the various performance-related parameters (i.e. block size, number of warps, number of stages) and study the impact these have on performance. We would like you to manually sweep the search space of these parameters so that you develop an understanding of the relationships between the values and performance (instead of simply adding an autotuning decorator to the kernel). We expect you to consider questions such as: Are the performances differences as expected? How does this change across problem sizes?
+***Performance Tuning:*** Try different values of the various performance-related parameters (i.e. block size, number of warps, number of stages) and study the impact these have on performance. We would like you to manually experiment in the search space of these parameters so that you develop an understanding of the relationships between the values and performance (instead of simply adding an autotuning decorator to the kernel). We expect you to consider questions such as: Are the performances differences as expected? How does this change across problem sizes?
 
 In your report, write about your findings regarding kernel fusion and the performance tuning of parameters. You should include plots and/or tables to demonstrate your findings.
 
@@ -200,7 +200,7 @@ srun python train.py \
     --hidden_units 64 \
     --epochs 100 \
     --lr 0.001 \
-    --kernel-type triton # or "torch" to compare with PyTorch
+    --kernel-type "triton" # or "torch" to compare with PyTorch
 ```
 
 ## Part 5 (Optional, For Fun): More Fusion
