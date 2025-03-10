@@ -175,7 +175,6 @@ def main():
 
     # create tokenizer
     # zaratan compute nodes do not have internet access, so use cached tokenizer
-    os.environ["TIKTOKEN_CACHE_DIR"] = "/scratch/zt1/project/bhatele-lab/user/dnicho/courses/cmsc828g/assign2/.tiktoken"
     tokenizer = tiktoken.get_encoding("gpt2")
 
     # load in dataset
