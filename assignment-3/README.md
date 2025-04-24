@@ -1,5 +1,5 @@
 Read the "[Benchmarking data science: Twelve ways to lie with statistics and performance on parallel computers.](https://htor.inf.ethz.ch/publications/img/hoefler-12-ways-data-science-preprint.pdf)" article. It covers 12 commmon mistakes papers make when reporting DL performance results. 
-After reading the article pick one of the following papers we covered this semester and see if it falls into any of these traps.
+After reading the article pick one of the following papers we covered this semester and evaluate its results and reporting in light of these 12 common mistakes.
 
 - Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism
 - Efficient Large-Scale Language Model Training on GPU Clusters Using Megatron-LM
