@@ -10,7 +10,3 @@ What you should turn in: A 2-4 page PDF that discusses each of the twelve points
 
 If you're curious there's [a related, older article](https://htor.inf.ethz.ch/blog/index.php/2018/11/08/twelve-ways-to-fool-the-masses-when-reporting-performance-of-deep-learning-workloads/) with slightly different points about DL.
 This trend was started by [D. Bailey's 1991 article](https://www.davidhbailey.com/dhbpapers/twelve-ways.pdf) on 12 ways parallel computing performance results are typically misreported; this is a good read if you're interested.
-
-if you recieve full credit for this assignment you will receive an additional five points of extra credit on your final grade. This means, for instance, a final grade of 85 will become a final grade of 90.
-
-*There will be no extensions or late submissions accepted for this assignment.*
