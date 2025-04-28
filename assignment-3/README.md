@@ -1,4 +1,4 @@
-Read the "[Benchmarking data science: Twelve ways to lie with statistics and performance on parallel computers.](https://htor.inf.ethz.ch/publications/img/hoefler-12-ways-data-science-preprint.pdf)" article. It covers 12 commmon mistakes papers make when reporting DL performance results. 
+Read the "[Benchmarking data science: Twelve ways to lie with statistics and performance on parallel computers.](https://htor.inf.ethz.ch/publications/img/hoefler-12-ways-data-science-preprint.pdf)" article. It covers 12 common mistakes papers make when reporting DL performance results. 
 After reading the article pick one of the following papers we covered this semester and evaluate its results and reporting in light of these 12 common mistakes.
 
 - Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism
@@ -10,3 +10,7 @@ What you should turn in: A 2-4 page PDF that discusses each of the twelve points
 
 If you're curious there's [a related, older article](https://htor.inf.ethz.ch/blog/index.php/2018/11/08/twelve-ways-to-fool-the-masses-when-reporting-performance-of-deep-learning-workloads/) with slightly different points about DL.
 This trend was started by [D. Bailey's 1991 article](https://www.davidhbailey.com/dhbpapers/twelve-ways.pdf) on 12 ways parallel computing performance results are typically misreported; this is a good read if you're interested.
+
+if you recieve full credit for this assignment you will receive an additional five points of extra credit on your final grade. This means, for instance, a final grade of 85 will become a final grade of 90.
+
+*There will be no extensions or late submissions accepted for this assignment.*
