@@ -10,3 +10,11 @@ What you should turn in: A 2-4 page PDF that discusses each of the twelve points
 
 If you're curious there's [a related, older article](https://htor.inf.ethz.ch/blog/index.php/2018/11/08/twelve-ways-to-fool-the-masses-when-reporting-performance-of-deep-learning-workloads/) with slightly different points about DL.
 This trend was started by [D. Bailey's 1991 article](https://www.davidhbailey.com/dhbpapers/twelve-ways.pdf) on 12 ways parallel computing performance results are typically misreported; this is a good read if you're interested.
+
+Here is the rubric that will be used to grade submissions:
+
+| Component                                         | Points         |
+| :------------------------------------------------ | :------------- |
+| Paragraph for each of the 12 points               | 8 points each  |
+| Mention of paper being addressed at top of report | 4 points       |
+| **Total**                                         | **100 points** |
