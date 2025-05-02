@@ -16,5 +16,5 @@ Here is the rubric that will be used to grade submissions:
 | Component                                         | Points         |
 | :------------------------------------------------ | :------------- |
 | Paragraph for each of the 12 points               | 8 points each  |
-| Mention of paper being addressed at top of report | 4 points       |
+| Report overall                                    | 4 points       |
 | **Total**                                         | **100 points** |
