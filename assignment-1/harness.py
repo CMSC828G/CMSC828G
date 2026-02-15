@@ -6,7 +6,7 @@ from array import array
 
 from mpi4py import MPI
 
-import collectives_correct as collectives
+import collectives
 
 def make_input(rank: int, count: int) -> array:
     data = array("d", [0.0] * count)
