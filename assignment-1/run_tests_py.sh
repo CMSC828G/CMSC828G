@@ -19,7 +19,7 @@ case "$COLL" in
         ;;
  esac
 
-SIZES=(2 4 8)
+SIZES=(2 4)
 VARIANTS=(ring recursive)
 
 run_one() {

@@ -38,8 +38,8 @@ To keep things simple, we will **not** test with asymmetric message sizes per pr
 Run the provided harness:
 
 ```bash
-srun -n 4 ./harness --collective allgather --variant ring --mib 8
-srun -n 4 ./harness --collective reducescatter --variant recursive --mib 8
+srun -n 4 ./harness --collective allgather --variant ring --mib 4 
+srun -n 4 ./harness --collective reducescatter --variant recursive --mib 4 
 ```
 
 ### Python
@@ -53,8 +53,8 @@ source /scratch/zt1/project/cmsc828/shared/assignment_collectives_venv/bin/activ
 Run the provided harness:
 
 ```bash
-srun -n 4 python3 harness.py --collective allgather --variant ring --mib 8
-srun -n 4 python3 harness.py --collective reducescatter --variant recursive --mib 8
+srun -n 4 python3 harness.py --collective allgather --variant ring --mib 4 
+srun -n 4 python3 harness.py --collective reducescatter --variant recursive --mib 4 
 ```
 
 ### Testing Scripts
@@ -73,7 +73,7 @@ Python:
 ./run_tests_py.sh <AG|AR|RS> [num_ranks]
 ```
 
-These scripts run message sizes of **2, 4, and 8 MiB**. For AG and RS, both **ring** and **recursive** variants are tested. For AR, only a single variant is run.
+These scripts run message sizes of **2 and 4 MiB**. For AG and RS, both **ring** and **recursive** variants are tested. For AR, only a single variant is run.
 
 ### MiB Interpretation
 
