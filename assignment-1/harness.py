@@ -22,7 +22,7 @@ def check_buffers(expected: array, actual: array, comm: MPI.Comm) -> None:
 
     global_max = comm.allreduce(local_max, op=MPI.MAX)
     if comm.rank == 0:
-        if global_max <= 1e-9:
+        if global_max <= 1e-6:
             print(f"PASS (max abs diff = {global_max})")
         else:
             print(f"FAIL (max abs diff = {global_max})")

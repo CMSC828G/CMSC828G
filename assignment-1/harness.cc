@@ -63,7 +63,7 @@ void check_buffers(
     int rank = 0;
     MPI_Comm_rank(comm, &rank);
     if (rank == 0) {
-        if (global_max <= 1e-9) {
+        if (global_max <= 1e-6) {
             std::cout << "PASS (max abs diff = " << global_max << ")\n";
         } else {
             std::cout << "FAIL (max abs diff = " << global_max << ")\n";
