@@ -1,12 +1,12 @@
-# Assignment 1: Writing Triton Kernels
+# Assignment 2: Writing Triton Kernels
 
 In this assignment, you will implement custom GPU kernels for a Graph Convolutional Network (GCN) layer and pooling operation.
 You will implement these using Triton and run them on A100s on Zaratan. You will be graded for the correctness and
 performance of your implementations. This assignment consists of three main tasks:
 
 1. Implement a ReLU forward and backward kernel.
-2. Implement an efficient max reduction kernel for graph pooling.
-3. Implement kernel fusion and explore performance trade-offs for different performance-related parameters.
+2. Implement a max reduction (forward and backward) kernel for graph pooling.
+3. Explore performance trade-offs for different performance-related parameters.
 
 
 ## Background
@@ -34,10 +34,10 @@ In addition to the GCN layer, you will also implement graph pooling. Graph pooli
 ## Part 0: Setting up your Environment
 
 Triton is capable of running on a range of GPU hardware, so feel free to develop on whatever GPUs are available to you. However, we will run and test your code on Zaratan for grading, so we recommend testing your final version there.
-Please refer to this [quick primer](https://www.cs.umd.edu/class/spring2025/cmsc828g/zaratan.shtml) and the detailed [Zaratan usage docs](https://hpcc.umd.edu/hpcc/help/usage.html) for getting set up. A Python virtual environment has been created with all the packages required for this assignment. To load this environment, you can run
+Please refer to this [quick primer](https://www.cs.umd.edu/class/spring2025/cmsc828g/zaratan.shtml) and the detailed [Zaratan usage docs](https://hpcc.umd.edu/kb/) for getting set up. A Python virtual environment has been created with all the packages required for this assignment. To load this environment, you can run
 
 ```bash
-source /scratch/zt1/project/cmsc828/shared/assignment-1/.venv/bin/activate
+source /scratch/zt1/project/cmsc828/shared/assignment-2/.venv/bin/activate
 ```
 
 With this environment activated, you'll have access to Python, PyTorch, and Triton.
@@ -50,7 +50,7 @@ You can launch an interactive GPU job on Zaratan as follows.
 salloc -A cmsc828-class -n 1 -p gpu --gpus=a100_1g.5gb:1 -t 00:30:00
 
 # once the job is granted you can run any commands; use srun to run on GPUs
-source /scratch/zt1/project/cmsc828/shared/assignment-1/.venv/bin/activate
+source /scratch/zt1/project/cmsc828/shared/assignment-2/.venv/bin/activate
 srun --pty python my_triton_python_script.py
 
 # make sure to end the job if you're done before the time limit
@@ -71,7 +71,7 @@ check the status of your queued jobs with `squeue --me`.
 #SBATCH -t 00:30:00
 
 # setup: activate env and cd to your script
-source /scratch/zt1/project/cmsc828/shared/assignment-1/.venv/bin/activate
+source /scratch/zt1/project/cmsc828/shared/assignment-2/.venv/bin/activate
 cd /path/to/my/script
 
 # run on the GPUs using srun
@@ -150,24 +150,19 @@ def max_pooling_grad(H: List[List[float]], grad: List[float], indices: List[int]
 
 The setup, testing, and benchmark code for the pooling kernel is in the [max_pool_kernel.py](max_pool_kernel.py) file. To implement the forward kernel you need to write `_max_pool_kernel_forward` and `_max_pool_triton_forward`. To implement the backward kernel you need to write `_max_pool_kernel_backward` and `_max_pool_triton_backward`. You can verify their correctness by running `srun python max_pool_kernel.py --test-forward` and `srun python max_pool_kernel.py --test-backward`. You can benchmark them using `srun python max_pool_kernel.py --benchmark <results_fpath>`. You can also use the `--time-with-size <N> <M>` flag to time the kernel for specific matrix sizes.
 
-In addition to correctness, we will also benchmark your max pooling forward kernel implementation for performance. 
-We will test the performance on a full A100 GPU on Zaratan for various matrix sizes (number of rows and columns $\le 2^{15}$). 
-To receive full credit, the execution time of your forward kernel should be within (less than) 2x the performance of the PyTorch implementation (`torch.max(x, axis=0)`). We will post performance numbers for some representative matrix sizes on Piazza.
-You should not have Triton autotuning on your final submitted kernel.
 
-## Part 3: Kernel fusion, Performance parameters, and Performance analysis
+## Part 3: Performance parameters and performance analysis
 
-In this part, you will fuse two kernels and try different performance-related parameters to study their impact on performance.
-
-***Kernel Fusion:*** Fuse (combine) two kernels into a single kernel -- the ReLU kernel with the provided [matrix multiplication triton kernel](matmul_kernel.py). How does this change the performance compared to calling the two kernels individually back-to-back? You can also try fusing ReLU with your pooling kernel. Are the performance improvements the same? Feel free to create new files and tests.
+In this part, you will try different performance-related parameters to study their impact on performance.
 
 ***Performance Tuning:*** Try different values of the various performance-related parameters (i.e. block size, number of warps, number of stages) and study the impact these have on performance. We would like you to manually experiment in the search space of these parameters so that you develop an understanding of the relationships between the values and performance (instead of simply adding an autotuning decorator to the kernel). We expect you to consider questions such as: Are the performances differences as expected? How does this change across problem sizes?
 
-In your report, write about your findings regarding kernel fusion and the performance tuning of parameters. You should include plots and/or tables to demonstrate your findings.
+In your report, write about your findings regarding the performance tuning of parameters. You should include plots and/or tables to demonstrate your findings.
+
 
 ## What to Turn In and Grading
 
-You will upload a tarball `lastname-firstname-assign1.tar.gz` to [gradescope](https://www.gradescope.com/courses/924314) containing the following:
+You will upload a tarball `lastname-firstname-assign2.tar.gz` to gradescope containing the following:
 
 - Your `relu_kernel.py` file implementing the forward and backward kernels.
 - Your `max_pool_kernel.py` file implementing the forward and backward kernels.
@@ -178,21 +173,22 @@ The grading for this assignment is distributed according to the table below.
 
 | Task | Points |
 | ---- | ------ |
-| Part 1: ReLU Kernel Correctness (forward and backward) | 10+10 |
-| Part 2: Max Pooling Kernel Correctness (forward and backward) | 15+15 |
-| Part 2: Max Pooling Kernel Performance (forward) | 20 |
+| Part 1: ReLU Kernel Correctness (forward and backward) | 15+15 |
+| Part 2: Max Pooling Kernel Correctness (forward and backward) | 20+20 |
 | Part 3 and Report | 30 |
 | **Total** | 100 |
 
 
-## Part 4 (Optional, For Fun): Training a GNN
+## Part 4 (Optional, For Fun)
 
-If you would like to try training a GNN using your implemented Triton kernels, you can run the graph classification script in [train.py](train.py). Run this script as below to train a 2-layer GCN.
+### Training a GNN
+
+If you would like to try training a GNN using your implemented Triton kernels, you can run the graph classification script in [train.py](extra/train.py). Run this script as below to train a 2-layer GCN.
 
 ```bash
-# run `ls /scratch/zt1/project/cmsc828/shared/assignment-1/datasets` to see available datasets
-TRAIN_DATASET="/scratch/zt1/project/cmsc828/shared/assignment-1/datasets/DD_train.pt"
-TEST_DATASET="/scratch/zt1/project/cmsc828/shared/assignment-1/datasets/DD_test.pt"
+# run `ls /scratch/zt1/project/cmsc828/shared/assignment-2/datasets` to see available datasets
+TRAIN_DATASET="/scratch/zt1/project/cmsc828/shared/assignment-2/datasets/DD_train.pt"
+TEST_DATASET="/scratch/zt1/project/cmsc828/shared/assignment-2/datasets/DD_test.pt"
 
 srun python train.py \
     --train_dataset $TRAIN_DATASET \
@@ -203,7 +199,9 @@ srun python train.py \
     --kernel-type "triton" # or "torch" to compare with PyTorch
 ```
 
-## Part 5 (Optional, For Fun): More Fusion
+### Kernel Fusion
+
+You can try combining (fusing) two kernels into a single kernel -- the ReLU kernel with the provided [matrix multiplication triton kernel](extra/matmul_kernel.py). How does this change the performance compared to calling the two kernels individually back-to-back? You can also try fusing ReLU with your pooling kernel. Are the performance improvements the same? Feel free to create new files and tests.
 
 For those that would like some more Triton practice, consider if there is more potential for fusion in the GCN layer. We compute two matrix multiplications, an activation function, and, if we are in the last layer, a graph pooling operation. Can these be further fused into single kernels? 
 

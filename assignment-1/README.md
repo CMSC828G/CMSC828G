@@ -1,4 +1,4 @@
-# Collective Implementations Assignment
+# Assignment 1: Implementing Collectives
 
 In this assignment, you will implement collective routines using point-to-point routines to develop an understanding of how the algorithms function in communication libraries. You can choose one collective routine between **ReduceScatter (RS)** or **AllGather (AG)** and implement it using **MPI point-to-point** operations only. You may complete the assignment in **either C++ or Python**. An **optional AllReduce (AR)** stub is included in case you want to explore that (this is not part of the graded assignment).
 
@@ -47,7 +47,7 @@ srun -n 4 ./harness --collective reducescatter --variant recursive --mib 4
 A Python environment with all packages required for this assignment is provided, you may load it like so:
 
 ```bash
-source /scratch/zt1/project/cmsc828/shared/assignment_collectives_venv/bin/activate
+source /scratch/zt1/project/cmsc828/shared/assignment-1/bin/activate
 ```
 
 Run the provided harness:
